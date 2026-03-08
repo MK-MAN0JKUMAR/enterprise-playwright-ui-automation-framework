@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "commonjs",
+    "lib": ["ES2021"],
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "strict": true,
+    "sourceMap": true,
+
+    "types": ["node", "@playwright/test"],
+
+    "baseUrl": ".",
+
+    "paths": {
+      "@framework/*": ["src/framework/*"],
+      "@applications/*": ["src/applications/*"],
+      "@data/*": ["src/data/*"],
+      "@domain/*": ["src/domain/*"]
+    }
+  },
+
+  "include": [
+    "src",
+    "tests",
+    "config"
+  ]
+}

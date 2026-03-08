@@ -1,0 +1,36 @@
+{
+  "name": "playwright-ui-automation-framework",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    
+    "test:ecommerce": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce",
+    "test:ecommerce:smoke": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/smoke",
+    "test:ecommerce:smoke:headed": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/smoke --headed",
+    "test:ecommerce:regression": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/regression",
+    "test:ecommerce:regression:headed": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce  /regression --headed",
+
+    "test:orangehrm": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm",
+    "test:orangehrm:smoke": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/smoke",
+    "test:orangehrm:smoke:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/smoke --headed",
+    "test:orangehrm:regression": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/regression",
+    "test:orangehrm:regression:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/regression --headed",
+
+    "report": "playwright show-report",
+    "allure:generate": "allure generate ./reports/allure-results -o ./reports/allure-report --clean",
+    "allure:open": "allure open ./reports/allure-report",
+    "lint": "eslint src",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "allure-playwright": "^2.15.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.6.1",
+    "eslint": "^8.57.1",
+    "prettier": "^3.8.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

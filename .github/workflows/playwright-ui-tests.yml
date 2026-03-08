@@ -1,0 +1,78 @@
+name: Playwright UI Automation Pipeline
+
+on:
+  push:
+    branches: ["main", "develop"]
+
+  pull_request:
+    branches: ["main"]
+
+jobs:
+
+  ui-tests:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        application: [ecommerce, orangehrm]
+        suite: [smoke]
+
+    name: ${{ matrix.application }}-${{ matrix.suite }}
+
+    steps:
+
+      # Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Setup Node
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: npm ci
+
+      # Install Playwright browsers
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      # Run tests
+      - name: Run Playwright Tests
+        run: |
+          TEST_APP=${{ matrix.application }} \
+          TEST_ENV=dev \
+          npx playwright test tests/${{ matrix.application }}/${{ matrix.suite }}
+
+      # Upload Playwright report
+      - name: Upload Playwright Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.application }}
+          path: reports/playwright-report
+
+      # Upload traces, screenshots, videos
+      - name: Upload Test Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: execution-artifacts-${{ matrix.application }}
+          path: |
+            reports/screenshots
+            reports/videos
+            reports/traces
+            test-results
+
+      # Upload Allure results
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.application }}
+          path: reports/allure-results

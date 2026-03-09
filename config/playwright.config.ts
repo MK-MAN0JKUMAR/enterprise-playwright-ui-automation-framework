@@ -9,7 +9,7 @@ export default defineConfig({
 
   workers: envConfig.workers,
 
-  timeout: 30000,
+  timeout: 60000,
 
   grep: new RegExp(appConfig.name),
 

@@ -9,7 +9,7 @@
     "test:ecommerce:smoke": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/smoke",
     "test:ecommerce:smoke:headed": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/smoke --headed",
     "test:ecommerce:regression": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/regression",
-    "test:ecommerce:regression:headed": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce  /regression --headed",
+    "test:ecommerce:regression:headed": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/regression --headed",
 
     "test:orangehrm": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm",
     "test:orangehrm:smoke": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/smoke",

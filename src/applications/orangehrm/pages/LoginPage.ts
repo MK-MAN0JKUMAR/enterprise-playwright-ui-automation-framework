@@ -1,9 +1,7 @@
 import { Page } from "@playwright/test";
-import { BasePage } from "./BasePage";
-import { UIElement } from "../../../framework/elements/UIElement";
-import { InputField } from "../../../framework/components/InputField";
-import { Button } from "../../../framework/components/Button";
-import { SelectorEngine } from "../../../framework/selectors/SelectorEngine";
+import { BasePage } from "@framework/pages/BasePage";
+import { InputField } from "@framework/components/InputField";
+import { Button } from "@framework/components/Button";
 import { appConfig } from "../../../../config/framework.config";
 
 export class LoginPage extends BasePage {
@@ -13,30 +11,18 @@ export class LoginPage extends BasePage {
   private loginButton: Button;
 
   constructor(page: Page) {
+
     super(page);
 
-    this.username = new InputField(
-      new UIElement(
-        SelectorEngine.byPlaceholder(page, "Username")
-      )
-    );
+    this.username = this.components.inputByPlaceholder("Username");
+    this.password = this.components.inputByPlaceholder("Password");
+    this.loginButton = this.components.buttonByRole("button", "Login");
 
-    this.password = new InputField(
-      new UIElement(
-        SelectorEngine.byPlaceholder(page, "Password")
-      )
-    );
-
-    this.loginButton = new Button(
-      new UIElement(
-        SelectorEngine.byRole(page, "button", "Login")
-      )
-    );
   }
 
   async open(): Promise<void> {
 
-    await this.navigate("/");
+    await this.navigate("");
 
   }
 

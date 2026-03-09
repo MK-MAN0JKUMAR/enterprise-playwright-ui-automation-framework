@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { BasePage } from "./BasePage";
+import { BasePage } from "@framework/pages/BasePage";
 import { UIElement } from "../../../framework/elements/UIElement";
 import { InputField } from "../../../framework/components/InputField";
 import { Button } from "../../../framework/components/Button";
@@ -16,12 +16,9 @@ export class EmployeePage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    this.addEmployeeButton = new Button(
-      new UIElement(
-        SelectorEngine.byRole(page, "button", "Add")
-      )
-    );
+    this.addEmployeeButton = this.components.buttonByDataQa("add-employee");
 
+    
     this.firstNameInput = new InputField(
       new UIElement(
         SelectorEngine.byPlaceholder(page, "First Name")
@@ -34,11 +31,7 @@ export class EmployeePage extends BasePage {
       )
     );
 
-    this.saveButton = new Button(
-      new UIElement(
-        SelectorEngine.byRole(page, "button", "Save")
-      )
-    );
+    this.saveButton = this.components.buttonByDataQa("save-employee");  
   }
 
   async addEmployee(employee: Employee): Promise<void> {

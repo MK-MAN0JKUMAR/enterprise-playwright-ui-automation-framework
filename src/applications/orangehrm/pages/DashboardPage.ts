@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { BasePage } from "./BasePage";
+import { BasePage } from "@framework/pages/BasePage";
 import { UIElement } from "../../../framework/elements/UIElement";
 import { SelectorEngine } from "../../../framework/selectors/SelectorEngine";
 

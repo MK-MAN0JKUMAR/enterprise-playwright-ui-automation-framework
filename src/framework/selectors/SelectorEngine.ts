@@ -47,4 +47,8 @@ export class SelectorEngine {
     return page.locator(selector);
   }
 
+  static byDataQa(page: Page, value: string): Locator {
+    return page.locator(`[data-qa="${value}"]`);
+  }
+
 }

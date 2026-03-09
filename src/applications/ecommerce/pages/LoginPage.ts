@@ -1,9 +1,7 @@
 import { Page } from "@playwright/test";
-import { BasePage } from "./BasePage";
-import { UIElement } from "../../../framework/elements/UIElement";
-import { InputField } from "../../../framework/components/InputField";
-import { Button } from "../../../framework/components/Button";
-import { SelectorEngine } from "../../../framework/selectors/SelectorEngine";
+import { BasePage } from "@framework/pages/BasePage";
+import { InputField } from "@framework/components/InputField";
+import { Button } from "@framework/components/Button";
 import { appConfig } from "../../../../config/framework.config";
 
 export class LoginPage extends BasePage {
@@ -13,25 +11,13 @@ export class LoginPage extends BasePage {
   private loginButton: Button;
 
   constructor(page: Page) {
+
     super(page);
 
-    this.emailInput = new InputField(
-      new UIElement(
-        SelectorEngine.byCss(page, 'input[data-qa="login-email"]')
-      )
-    );
+    this.emailInput = this.components.inputByDataQa("login-email");
+    this.passwordInput = this.components.inputByDataQa("login-password");
+    this.loginButton = this.components.buttonByDataQa("login-button");
 
-    this.passwordInput = new InputField(
-      new UIElement(
-        SelectorEngine.byCss(page, 'input[data-qa="login-password"]')
-      )
-    );
-
-    this.loginButton = new Button(
-      new UIElement(
-        SelectorEngine.byCss(page, 'button[data-qa="login-button"]')
-      )
-    );
   }
 
   async open(): Promise<void> {

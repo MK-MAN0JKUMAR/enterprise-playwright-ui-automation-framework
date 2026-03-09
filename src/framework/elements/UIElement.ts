@@ -1,75 +1,118 @@
 import { Locator, expect } from "@playwright/test";
+import { FrameworkConstants } from "../constants/FrameworkConstants";
+import { RetryHandler } from "../retry/RetryHandler";
+import { Logger } from "../reporting/Logger";
 
 export class UIElement {
 
-  private locator: Locator;
-
-  constructor(locator: Locator) {
-    this.locator = locator;
-  }
+  constructor(private locator: Locator) {}
 
   async click(): Promise<void> {
-    await this.locator.click();
-  }
 
-  async doubleClick(): Promise<void> {
-    await this.locator.dblclick();
+    await RetryHandler.retry(async () => {
+
+      Logger.info("Clicking element");
+
+      await this.waitForVisible();
+
+      await this.locator.click();
+
+    });
+
   }
 
   async fill(value: string): Promise<void> {
+
+    Logger.info(`Filling value: ${value}`);
+
+    await this.waitForVisible();
+
     await this.locator.fill(value);
+
   }
 
   async type(value: string): Promise<void> {
+
+    Logger.info(`Typing value: ${value}`);
+
+    await this.waitForVisible();
+
     await this.locator.type(value);
+
   }
 
   async hover(): Promise<void> {
+
+    Logger.info("Hovering element");
+
+    await this.waitForVisible();
+
     await this.locator.hover();
-  }
 
-  async check(): Promise<void> {
-    await this.locator.check();
-  }
-
-  async uncheck(): Promise<void> {
-    await this.locator.uncheck();
   }
 
   async select(value: string): Promise<void> {
+
+    Logger.info(`Selecting option: ${value}`);
+
+    await this.waitForVisible();
+
     await this.locator.selectOption(value);
+
   }
 
   async text(): Promise<string | null> {
+
+    await this.waitForVisible();
+
     return await this.locator.textContent();
+
   }
 
   async value(): Promise<string> {
+
+    await this.waitForVisible();
+
     return await this.locator.inputValue();
+
   }
 
   async isVisible(): Promise<boolean> {
-    return await this.locator.isVisible();
-  }
 
-  async isHidden(): Promise<boolean> {
-    return await this.locator.isHidden();
+    return await this.locator.isVisible();
+
   }
 
   async exists(): Promise<boolean> {
-    return await this.locator.count().then(c => c > 0);
+
+    const count = await this.locator.count();
+
+    return count > 0;
+
   }
 
   async waitForVisible(): Promise<void> {
-    await expect(this.locator).toBeVisible();
+
+    await expect(this.locator).toBeVisible({
+      timeout: FrameworkConstants.DEFAULT_TIMEOUT
+    });
+
   }
 
   async waitForHidden(): Promise<void> {
-    await expect(this.locator).toBeHidden();
+
+    await expect(this.locator).toBeHidden({
+      timeout: FrameworkConstants.DEFAULT_TIMEOUT
+    });
+
   }
 
   async waitForText(text: string): Promise<void> {
-    await expect(this.locator).toHaveText(text);
+
+    await expect(this.locator).toHaveText(text, {
+      timeout: FrameworkConstants.DEFAULT_TIMEOUT
+    });
+
   }
 
 }

@@ -1,19 +1,20 @@
-import { Locator } from "@playwright/test";
+import { UIElement } from "../elements/UIElement";
 
 export class Table {
 
-  constructor(private rows: Locator) {}
+  constructor(private element: UIElement) {}
 
   async rowCount(): Promise<number> {
-    return await this.rows.count();
+    const exists = await this.element.exists();
+    return exists ? 1 : 0;
   }
 
-  async getCellText(rowIndex: number, columnLocator: string): Promise<string | null> {
+  async isVisible(): Promise<boolean> {
+    return await this.element.isVisible();
+  }
 
-    const row = this.rows.nth(rowIndex);
-    const cell = row.locator(columnLocator);
-
-    return await cell.textContent();
+  async getText(): Promise<string | null> {
+    return await this.element.text();
   }
 
 }

@@ -1,8 +1,6 @@
 import { Page } from "@playwright/test";
-import { BasePage } from "./BasePage";
-import { UIElement } from "../../../framework/elements/UIElement";
-import { Button } from "../../../framework/components/Button";
-import { SelectorEngine } from "../../../framework/selectors/SelectorEngine";
+import { BasePage } from "@framework/pages/BasePage";
+import { Button } from "@framework/components/Button";
 
 export class LeavePage extends BasePage {
 
@@ -10,19 +8,12 @@ export class LeavePage extends BasePage {
   private applyButton: Button;
 
   constructor(page: Page) {
+
     super(page);
 
-    this.leaveMenu = new Button(
-      new UIElement(
-        SelectorEngine.byRole(page, "link", "Leave")
-      )
-    );
+    this.leaveMenu = this.components.buttonByDataQa("menu-leave");
+    this.applyButton = this.components.buttonByDataQa("apply-leave");
 
-    this.applyButton = new Button(
-      new UIElement(
-        SelectorEngine.byRole(page, "button", "Apply")
-      )
-    );
   }
 
   async openLeaveModule(): Promise<void> {
@@ -33,9 +24,7 @@ export class LeavePage extends BasePage {
   }
 
   async applyLeave(): Promise<void> {
-
     await this.applyButton.click();
-
   }
 
 }

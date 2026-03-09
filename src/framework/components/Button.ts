@@ -8,10 +8,6 @@ export class Button {
     await this.element.click();
   }
 
-  async doubleClick(): Promise<void> {
-    await this.element.doubleClick();
-  }
-
   async isVisible(): Promise<boolean> {
     return await this.element.isVisible();
   }

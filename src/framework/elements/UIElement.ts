@@ -1,4 +1,4 @@
-import { Locator, expect } from "@playwright/test";
+import { Locator } from "@playwright/test";
 import { FrameworkConstants } from "../constants/FrameworkConstants";
 import { RetryHandler } from "../retry/RetryHandler";
 import { Logger } from "../reporting/Logger";
@@ -7,15 +7,27 @@ export class UIElement {
 
   constructor(private locator: Locator) {}
 
-  async click(): Promise<void> {
+  private async performAction(actionName: string, action: () => Promise<void>) {
 
     await RetryHandler.retry(async () => {
 
-      Logger.info("Clicking element");
+      Logger.info(`UIElement action: ${actionName}`);
 
-      await this.waitForVisible();
+      await this.locator.scrollIntoViewIfNeeded();
 
-      await this.locator.click();
+      await action();
+
+    }, FrameworkConstants.RETRY_ATTEMPTS);
+
+  }
+
+  async click(): Promise<void> {
+
+    await this.performAction("click", async () => {
+
+      await this.locator.click({
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
     });
 
@@ -23,63 +35,57 @@ export class UIElement {
 
   async fill(value: string): Promise<void> {
 
-    Logger.info(`Filling value: ${value}`);
+    await this.performAction(`fill value=${value}`, async () => {
 
-    await this.waitForVisible();
+      await this.locator.fill(value, {
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
-    await this.locator.fill(value);
+    });
 
   }
 
   async type(value: string): Promise<void> {
 
-    Logger.info(`Typing value: ${value}`);
+    await this.performAction(`type value=${value}`, async () => {
 
-    await this.waitForVisible();
+      await this.locator.type(value);
 
-    await this.locator.type(value);
+    });
 
   }
 
   async hover(): Promise<void> {
 
-    Logger.info("Hovering element");
+    await this.performAction("hover", async () => {
 
-    await this.waitForVisible();
+      await this.locator.hover();
 
-    await this.locator.hover();
+    });
 
   }
 
   async select(value: string): Promise<void> {
 
-    Logger.info(`Selecting option: ${value}`);
+    await this.performAction(`select value=${value}`, async () => {
 
-    await this.waitForVisible();
+      await this.locator.selectOption(value);
 
-    await this.locator.selectOption(value);
+    });
 
   }
 
-  async text(): Promise<string | null> {
+  async text(): Promise<string> {
 
-    await this.waitForVisible();
+    const text = await this.locator.textContent();
 
-    return await this.locator.textContent();
+    return text ?? "";
 
   }
 
   async value(): Promise<string> {
 
-    await this.waitForVisible();
-
     return await this.locator.inputValue();
-
-  }
-
-  async isVisible(): Promise<boolean> {
-
-    return await this.locator.isVisible();
 
   }
 
@@ -91,27 +97,9 @@ export class UIElement {
 
   }
 
-  async waitForVisible(): Promise<void> {
+  async isVisible(): Promise<boolean> {
 
-    await expect(this.locator).toBeVisible({
-      timeout: FrameworkConstants.DEFAULT_TIMEOUT
-    });
-
-  }
-
-  async waitForHidden(): Promise<void> {
-
-    await expect(this.locator).toBeHidden({
-      timeout: FrameworkConstants.DEFAULT_TIMEOUT
-    });
-
-  }
-
-  async waitForText(text: string): Promise<void> {
-
-    await expect(this.locator).toHaveText(text, {
-      timeout: FrameworkConstants.DEFAULT_TIMEOUT
-    });
+    return await this.locator.isVisible();
 
   }
 

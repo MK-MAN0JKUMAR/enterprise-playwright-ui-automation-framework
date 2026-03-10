@@ -6,6 +6,8 @@ export class FrameworkConstants {
   // Page navigation timeout
   static readonly NAVIGATION_TIMEOUT = 60000;
 
+  static readonly ACTION_TIMEOUT = 10000;
+
   // Retry configuration
   static readonly RETRY_ATTEMPTS = 2;
   static readonly RETRY_DELAY = 500;

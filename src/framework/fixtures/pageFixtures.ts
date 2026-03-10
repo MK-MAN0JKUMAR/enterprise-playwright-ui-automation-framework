@@ -3,29 +3,41 @@ import { baseTest } from "./baseTest";
 import { LoginPage as EcommerceLoginPage } from "../../applications/ecommerce/pages/LoginPage";
 
 import { LoginPage as OrangeLoginPage } from "../../applications/orangehrm/pages/LoginPage";
-import { DashboardPage } from "../../applications/orangehrm/pages/DashboardPage";
+import { DashboardPage as OrangeDashboardPage } from "../../applications/orangehrm/pages/DashboardPage";
 
 type PageFixtures = {
 
   ecommerceLoginPage: EcommerceLoginPage;
 
   orangehrmLoginPage: OrangeLoginPage;
-  orangeDashboardPage: DashboardPage;
+  orangehrmDashboardPage: OrangeDashboardPage;
 
 };
 
 export const pageTest = baseTest.extend<PageFixtures>({
 
   ecommerceLoginPage: async ({ page }, use) => {
-    await use(new EcommerceLoginPage(page));
+
+    const loginPage = new EcommerceLoginPage(page);
+
+    await use(loginPage);
+
   },
 
   orangehrmLoginPage: async ({ page }, use) => {
-    await use(new OrangeLoginPage(page));
+
+    const loginPage = new OrangeLoginPage(page);
+
+    await use(loginPage);
+
   },
 
-  orangeDashboardPage: async ({ page }, use) => {
-    await use(new DashboardPage(page));
+  orangehrmDashboardPage: async ({ page }, use) => {
+
+    const dashboardPage = new OrangeDashboardPage(page);
+
+    await use(dashboardPage);
+
   }
 
 });

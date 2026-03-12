@@ -1,71 +1,98 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
+
 import { UIElement } from "../elements/UIElement";
 import { SelectorEngine } from "../selectors/SelectorEngine";
 
-import { InputField } from "../components/InputField";
 import { Button } from "../components/Button";
 import { Dropdown } from "../components/Dropdown";
-import { Table } from "../components/Table";
+import { InputField } from "../components/InputField";
 import { Modal } from "../components/Modal";
+import { Table } from "../components/Table";
 
 export class ComponentFactory {
 
-  constructor(private page: Page) {}
+  constructor(private page: Page) { }
+
+  private element(locator: Locator): UIElement {
+
+    return new UIElement(locator);
+
+  }
 
   inputByDataQa(value: string): InputField {
+
     return new InputField(
-      new UIElement(
+      this.element(
         SelectorEngine.byDataQa(this.page, value)
       )
     );
+
   }
 
   buttonByDataQa(value: string): Button {
+
     return new Button(
-      new UIElement(
+      this.element(
         SelectorEngine.byDataQa(this.page, value)
       )
     );
+
   }
 
   inputByPlaceholder(value: string): InputField {
+
     return new InputField(
-      new UIElement(
+      this.element(
         SelectorEngine.byPlaceholder(this.page, value)
       )
     );
+
   }
 
-  buttonByRole(role: string, name: string): Button {
+  buttonByRole(
+    role: Parameters<Page["getByRole"]>[0],
+    name: string
+  ): Button {
+
     return new Button(
-      new UIElement(
+      this.element(
         SelectorEngine.byRole(this.page, role, name)
       )
     );
+
   }
 
   dropdownByDataQa(value: string): Dropdown {
+
     return new Dropdown(
-      new UIElement(
+      this.element(
         SelectorEngine.byDataQa(this.page, value)
       )
     );
+
   }
 
   tableByCss(selector: string): Table {
+
     return new Table(
-      new UIElement(
+      this.element(
         SelectorEngine.byCss(this.page, selector)
       )
     );
+
   }
 
-  modalByRole(role: string, name: string): Modal {
+  modalByRole(
+    role: Parameters<Page["getByRole"]>[0],
+    name: string
+  ): Modal {
+
     return new Modal(
-      new UIElement(
+      this.element(
         SelectorEngine.byRole(this.page, role, name)
       )
     );
+
   }
 
 }

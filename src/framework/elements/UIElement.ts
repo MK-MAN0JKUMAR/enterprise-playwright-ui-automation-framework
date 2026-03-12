@@ -7,15 +7,35 @@ export class UIElement {
 
   constructor(private locator: Locator) {}
 
-  async click(): Promise<void> {
+  /**
+   * Core wrapper for all element actions
+   */
+  private async performAction(
+    actionName: string,
+    action: () => Promise<void>
+  ): Promise<void> {
+
+    Logger.info(`UIElement action: ${actionName}`);
+
+    await this.waitForVisible();
 
     await RetryHandler.retry(async () => {
 
-      Logger.info("Clicking element");
+      await this.locator.scrollIntoViewIfNeeded();
 
-      await this.waitForVisible();
+      await action();
 
-      await this.locator.click();
+    }, FrameworkConstants.RETRY_ATTEMPTS);
+
+  }
+
+  async click(): Promise<void> {
+
+    await this.performAction("click", async () => {
+
+      await this.locator.click({
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
     });
 
@@ -23,66 +43,75 @@ export class UIElement {
 
   async fill(value: string): Promise<void> {
 
-    Logger.info(`Filling value: ${value}`);
+    await this.performAction(`fill value=${value}`, async () => {
 
-    await this.waitForVisible();
+      await this.locator.fill(value, {
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
-    await this.locator.fill(value);
+    });
 
   }
 
   async type(value: string): Promise<void> {
 
-    Logger.info(`Typing value: ${value}`);
+    await this.performAction(`type value=${value}`, async () => {
 
-    await this.waitForVisible();
+      await this.locator.type(value, {
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
-    await this.locator.type(value);
+    });
 
   }
 
   async hover(): Promise<void> {
 
-    Logger.info("Hovering element");
+    await this.performAction("hover", async () => {
 
-    await this.waitForVisible();
+      await this.locator.hover({
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
-    await this.locator.hover();
+    });
 
   }
 
   async select(value: string): Promise<void> {
 
-    Logger.info(`Selecting option: ${value}`);
+    await this.performAction(`select value=${value}`, async () => {
 
-    await this.waitForVisible();
+      await this.locator.selectOption(value, {
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
-    await this.locator.selectOption(value);
-
-  }
-
-  async text(): Promise<string | null> {
-
-    await this.waitForVisible();
-
-    return await this.locator.textContent();
+    });
 
   }
 
+  /**
+   * Safe text retrieval
+   */
+  async text(): Promise<string> {
+
+    const text = await this.locator.textContent();
+
+    return text ?? "";
+
+  }
+
+  /**
+   * Input value retrieval
+   */
   async value(): Promise<string> {
-
-    await this.waitForVisible();
 
     return await this.locator.inputValue();
 
   }
 
-  async isVisible(): Promise<boolean> {
-
-    return await this.locator.isVisible();
-
-  }
-
+  /**
+   * Element existence check
+   */
   async exists(): Promise<boolean> {
 
     const count = await this.locator.count();
@@ -90,6 +119,19 @@ export class UIElement {
     return count > 0;
 
   }
+
+  /**
+   * Visibility check without waiting
+   */
+  async isVisible(): Promise<boolean> {
+
+    return await this.locator.isVisible();
+
+  }
+
+  /**
+   * Wait utilities
+   */
 
   async waitForVisible(): Promise<void> {
 

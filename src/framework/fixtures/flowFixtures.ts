@@ -1,12 +1,13 @@
 import { pageTest } from "./pageFixtures";
 
 import { LoginFlow as EcommerceLoginFlow } from "../../applications/ecommerce/flows/LoginFlow";
-import { LoginFlow as OrangeLoginFlow } from "../../applications/orangehrm/flows/LoginFlow";
+import { LoginFlow as OrangehrmLoginFlow } from "../../applications/orangehrm/flows/LoginFlow";
 
 type FlowFixtures = {
 
   ecommerceLoginFlow: EcommerceLoginFlow;
-  orangehrmLoginFlow: OrangeLoginFlow;
+
+  orangehrmLoginFlow: OrangehrmLoginFlow;
 
 };
 
@@ -14,16 +15,23 @@ export const test = pageTest.extend<FlowFixtures>({
 
   ecommerceLoginFlow: async ({ ecommerceLoginPage }, use) => {
 
-    await use(new EcommerceLoginFlow(ecommerceLoginPage));
+    const loginFlow = new EcommerceLoginFlow(ecommerceLoginPage);
+
+    await use(loginFlow);
 
   },
 
-  orangehrmLoginFlow: async ({ orangehrmLoginPage, orangeDashboardPage }, use) => {
+  orangehrmLoginFlow: async (
+    { orangehrmLoginPage, orangehrmDashboardPage },
+    use
+  ) => {
 
-    await use(new OrangeLoginFlow(
+    const loginFlow = new OrangehrmLoginFlow(
       orangehrmLoginPage,
-      orangeDashboardPage
-    ));
+      orangehrmDashboardPage
+    );
+
+    await use(loginFlow);
 
   }
 

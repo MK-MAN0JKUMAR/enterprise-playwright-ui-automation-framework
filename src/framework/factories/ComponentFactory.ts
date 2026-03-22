@@ -13,17 +13,19 @@ export class ComponentFactory {
 
   constructor(private page: Page) { }
 
-  private element(locator: Locator): UIElement {
-
-    return new UIElement(locator);
-
+  /**
+   * Internal helper to create UIElement
+   */
+  private element(locator: Locator, description: string): UIElement {
+    return new UIElement(locator, description);
   }
 
   inputByDataQa(value: string): InputField {
 
     return new InputField(
       this.element(
-        SelectorEngine.byDataQa(this.page, value)
+        SelectorEngine.byDataQa(this.page, value),
+        `input[data-qa="${value}"]`
       )
     );
 
@@ -33,7 +35,8 @@ export class ComponentFactory {
 
     return new Button(
       this.element(
-        SelectorEngine.byDataQa(this.page, value)
+        SelectorEngine.byDataQa(this.page, value),
+        `button[data-qa="${value}"]`
       )
     );
 
@@ -43,7 +46,8 @@ export class ComponentFactory {
 
     return new InputField(
       this.element(
-        SelectorEngine.byPlaceholder(this.page, value)
+        SelectorEngine.byPlaceholder(this.page, value),
+        `input placeholder="${value}"`
       )
     );
 
@@ -56,7 +60,8 @@ export class ComponentFactory {
 
     return new Button(
       this.element(
-        SelectorEngine.byRole(this.page, role, name)
+        SelectorEngine.byRole(this.page, role, name),
+        `role=${role} name="${name}"`
       )
     );
 
@@ -66,7 +71,8 @@ export class ComponentFactory {
 
     return new Dropdown(
       this.element(
-        SelectorEngine.byDataQa(this.page, value)
+        SelectorEngine.byDataQa(this.page, value),
+        `dropdown[data-qa="${value}"]`
       )
     );
 
@@ -76,7 +82,8 @@ export class ComponentFactory {
 
     return new Table(
       this.element(
-        SelectorEngine.byCss(this.page, selector)
+        SelectorEngine.byCss(this.page, selector),
+        `table selector="${selector}"`
       )
     );
 
@@ -89,7 +96,8 @@ export class ComponentFactory {
 
     return new Modal(
       this.element(
-        SelectorEngine.byRole(this.page, role, name)
+        SelectorEngine.byRole(this.page, role, name),
+        `modal role=${role} name="${name}"`
       )
     );
 

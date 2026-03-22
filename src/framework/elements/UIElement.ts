@@ -1,21 +1,24 @@
-import { Locator, expect } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { FrameworkConstants } from "../constants/FrameworkConstants";
-import { RetryHandler } from "../retry/RetryHandler";
 import { Logger } from "../reporting/Logger";
+import { RetryHandler } from "../retry/RetryHandler";
 
 export class UIElement {
 
-  constructor(private locator: Locator) {}
+  constructor(
+    private locator: Locator,
+    private description: string
+  ) { }
 
   /**
-   * Core wrapper for all element actions
+   * Internal action wrapper
    */
   private async performAction(
     actionName: string,
     action: () => Promise<void>
   ): Promise<void> {
 
-    Logger.info(`UIElement action: ${actionName}`);
+    Logger.info(`UIElement action: ${actionName} | element: ${this.description}`);
 
     await this.waitForVisible();
 
@@ -29,6 +32,37 @@ export class UIElement {
 
   }
 
+  /**
+   * Smart click handles navigation and SPA transitions
+   */
+  async smartClick(): Promise<void> {
+
+    const page: Page = this.locator.page();
+
+    Logger.info(`SmartClick on element: ${this.description}`);
+
+    await this.waitForVisible();
+
+    await RetryHandler.retry(async () => {
+
+      await Promise.all([
+        this.locator.click({ timeout: FrameworkConstants.DEFAULT_TIMEOUT }),
+
+        page.waitForLoadState("domcontentloaded", {
+          timeout: FrameworkConstants.DEFAULT_TIMEOUT
+        }).catch(() => {
+          // ignore if no navigation
+        })
+
+      ]);
+
+    }, FrameworkConstants.RETRY_ATTEMPTS);
+
+  }
+
+  /**
+   * Standard click
+   */
   async click(): Promise<void> {
 
     await this.performAction("click", async () => {
@@ -90,7 +124,7 @@ export class UIElement {
   }
 
   /**
-   * Safe text retrieval
+   * Safe getters
    */
   async text(): Promise<string> {
 
@@ -100,18 +134,12 @@ export class UIElement {
 
   }
 
-  /**
-   * Input value retrieval
-   */
   async value(): Promise<string> {
 
     return await this.locator.inputValue();
 
   }
 
-  /**
-   * Element existence check
-   */
   async exists(): Promise<boolean> {
 
     const count = await this.locator.count();
@@ -120,9 +148,6 @@ export class UIElement {
 
   }
 
-  /**
-   * Visibility check without waiting
-   */
   async isVisible(): Promise<boolean> {
 
     return await this.locator.isVisible();
@@ -132,7 +157,6 @@ export class UIElement {
   /**
    * Wait utilities
    */
-
   async waitForVisible(): Promise<void> {
 
     await expect(this.locator).toBeVisible({

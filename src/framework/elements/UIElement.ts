@@ -6,10 +6,26 @@ import { RetryHandler } from "../retry/RetryHandler";
 
 export class UIElement {
 
+  private static allowCreation = false;
+
+  static enableFactoryCreation() {
+    this.allowCreation = true;
+  }
+
+  static disableFactoryCreation() {
+    this.allowCreation = false;
+  }
+
   constructor(
     private locator: Locator,
     private description: string
-  ) { }
+  ) {
+    if (!UIElement.allowCreation) {
+      throw new Error(
+        "UIElement must be created via ComponentFactory only"
+      );
+    }
+  }
 
   /**
    * Internal action wrapper

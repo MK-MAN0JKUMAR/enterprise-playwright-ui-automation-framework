@@ -17,7 +17,14 @@ export class ComponentFactory {
    * Internal helper to create UIElement
    */
   private element(locator: Locator, description: string): UIElement {
-    return new UIElement(locator, description);
+
+    UIElement.enableFactoryCreation();
+
+    const element = new UIElement(locator, description);
+
+    UIElement.disableFactoryCreation();
+
+    return element;
   }
 
   inputByDataQa(value: string): InputField {
@@ -198,7 +205,7 @@ export class ComponentFactory {
     );
 
     return new Button(
-      new UIElement(
+      this.element(
         locator,
         `smart-button[data-qa="${value}"]`
       )

@@ -15,7 +15,17 @@ export const baseTest = base.extend<FrameworkFixtures>({
   // per-test config (enterprise safe)
   appConfig: async ({}, use, testInfo) => {
 
-  const appName = testInfo.project.metadata.app;
+  // Priority:
+  // 1. Project metadata (parallel multi-app)
+  // 2. ENV variable (single app run)
+  // 3. Default fallback
+
+
+  const appName = testInfo.project.metadata.app || process.env.TEST_APP;
+
+  if(!appName) {
+    throw new Error("TEST_APP is required when running tests. Set it as an environment variable or in the project config.");
+  }
 
   const config = getFullConfigForApp(appName);
 

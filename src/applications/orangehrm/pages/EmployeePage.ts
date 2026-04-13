@@ -1,10 +1,9 @@
-import { Page } from "@playwright/test";
+import { FrameworkConfigType } from "@config/framework.config";
+import { Employee } from "@domain/models/Employee";
+import { Button } from "@framework/components/Button";
+import { InputField } from "@framework/components/InputField";
 import { BasePage } from "@framework/pages/BasePage";
-import { UIElement } from "../../../framework/elements/UIElement";
-import { InputField } from "../../../framework/components/InputField";
-import { Button } from "../../../framework/components/Button";
-import { SelectorEngine } from "../../../framework/selectors/SelectorEngine";
-import { Employee } from "../../../domain/models/Employee";
+import { Page } from "@playwright/test";
 
 export class EmployeePage extends BasePage {
 
@@ -13,25 +12,15 @@ export class EmployeePage extends BasePage {
   private lastNameInput: InputField;
   private saveButton: Button;
 
-  constructor(page: Page) {
-    super(page);
+  constructor(page: Page, config: FrameworkConfigType) {
+    super(page, config);
 
     this.addEmployeeButton = this.components.buttonByDataQa("add-employee");
 
-    
-    this.firstNameInput = new InputField(
-      new UIElement(
-        SelectorEngine.byPlaceholder(page, "First Name")
-      )
-    );
+    this.firstNameInput = this.components.inputByPlaceholder("First Name");
+    this.lastNameInput = this.components.inputByPlaceholder("Last Name");
 
-    this.lastNameInput = new InputField(
-      new UIElement(
-        SelectorEngine.byPlaceholder(page, "Last Name")
-      )
-    );
-
-    this.saveButton = this.components.buttonByDataQa("save-employee");  
+    this.saveButton = this.components.buttonByDataQa("save-employee");
   }
 
   async addEmployee(employee: Employee): Promise<void> {

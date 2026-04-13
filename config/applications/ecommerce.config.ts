@@ -10,7 +10,6 @@ export default {
     cart: "/view_cart",
     checkout: "/checkout",
     products: "/products"
-
   }
 
 };

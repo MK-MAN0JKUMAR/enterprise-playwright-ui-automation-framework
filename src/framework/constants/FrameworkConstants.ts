@@ -4,7 +4,7 @@ export class FrameworkConstants {
   static readonly DEFAULT_TIMEOUT = 10000;
 
   // Page navigation timeout
-  static readonly NAVIGATION_TIMEOUT = 60000;
+  static readonly NAVIGATION_TIMEOUT = 30000;
 
   static readonly ACTION_TIMEOUT = 10000;
 

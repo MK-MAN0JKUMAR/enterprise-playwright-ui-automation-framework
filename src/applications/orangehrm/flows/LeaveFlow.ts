@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
-import { DashboardPage } from "../pages/DashboardPage";
-import { LeavePage } from "../pages/LeavePage";
+import { DashboardPage } from "@applications/orangehrm/pages/DashboardPage";
+import { LeavePage } from "@applications/orangehrm/pages/LeavePage";
 
 export class LeaveFlow {
 

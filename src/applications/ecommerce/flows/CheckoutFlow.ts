@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
-import { ProductPage } from "../pages/ProductPage";
-import { CartPage } from "../pages/CartPage";
-import { CheckoutPage } from "../pages/CheckoutPage";
+import { ProductPage } from "@applications/ecommerce/pages/ProductPage";
+import { CartPage } from "@applications/ecommerce/pages/CartPage";
+import { CheckoutPage } from "@applications/ecommerce/pages/CheckoutPage";
 
 export class CheckoutFlow {
 

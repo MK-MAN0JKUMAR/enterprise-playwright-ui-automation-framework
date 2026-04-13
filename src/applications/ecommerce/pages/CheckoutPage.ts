@@ -1,22 +1,19 @@
-import { Page } from "@playwright/test";
+import { Button } from "@framework/components/Button";
 import { BasePage } from "@framework/pages/BasePage";
-import { UIElement } from "../../../framework/elements/UIElement";
-import { Button } from "../../../framework/components/Button";
-import { SelectorEngine } from "../../../framework/selectors/SelectorEngine";
+import { Page } from "@playwright/test";
+import { FrameworkConfigType } from "config/framework.config";
+
+
 
 export class CheckoutPage extends BasePage {
 
   private placeOrderButton: Button;
 
-  constructor(page: Page) {
+  constructor(page: Page, config: FrameworkConfigType) {
 
-    super(page);
+    super(page, config);
 
-    this.placeOrderButton = new Button(
-      new UIElement(
-        SelectorEngine.byCss(page, '.check_out')
-      )
-    );
+    this.placeOrderButton = this.components.buttonByCss('.check_out');
 
   }
 

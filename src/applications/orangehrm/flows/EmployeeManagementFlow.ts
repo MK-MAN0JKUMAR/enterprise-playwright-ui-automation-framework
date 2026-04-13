@@ -1,8 +1,8 @@
 import { Page } from "@playwright/test";
-import { DashboardPage } from "../pages/DashboardPage";
-import { AdminPage } from "../pages/AdminPage";
-import { EmployeePage } from "../pages/EmployeePage";
-import { Employee } from "../../../domain/models/Employee";
+import { DashboardPage } from "@applications/orangehrm/pages/DashboardPage";
+import { AdminPage } from "@applications/orangehrm/pages/AdminPage";
+import { EmployeePage } from "@applications/orangehrm/pages/EmployeePage";
+import { Employee } from "@domain/models/Employee";
 
 export class EmployeeManagementFlow {
 

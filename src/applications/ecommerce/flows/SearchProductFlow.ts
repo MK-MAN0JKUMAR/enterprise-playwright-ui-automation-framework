@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { HomePage } from "../pages/HomePage";
+import { HomePage } from "@applications/ecommerce/pages/HomePage";
 
 export class SearchProductFlow {
 

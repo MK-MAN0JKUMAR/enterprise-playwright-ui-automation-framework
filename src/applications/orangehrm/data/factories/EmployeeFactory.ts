@@ -1,5 +1,5 @@
-import { EmployeeBuilder } from "../builders/EmployeeBuilder";
-import { Employee } from "../../../../domain/models/Employee";
+import { EmployeeBuilder } from "@applications/orangehrm/data/builders/EmployeeBuilder";
+import { Employee } from "@domain/models/Employee";
 
 export class EmployeeFactory {
 

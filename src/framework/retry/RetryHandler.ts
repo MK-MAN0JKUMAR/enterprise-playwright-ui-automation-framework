@@ -1,5 +1,5 @@
-import { FrameworkConstants } from "../constants/FrameworkConstants";
-import { Logger } from "../reporting/Logger";
+import { FrameworkConstants } from "@framework/constants/FrameworkConstants";
+import { Logger } from "@framework/reporting/Logger";
 
 export class RetryHandler {
 

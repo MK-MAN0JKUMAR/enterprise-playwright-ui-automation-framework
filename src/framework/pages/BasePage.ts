@@ -1,9 +1,9 @@
 import { Page } from "@playwright/test";
-import { ComponentFactory } from "../factories/ComponentFactory";
-import { FrameworkConstants } from "../constants/FrameworkConstants";
-import { RetryHandler } from "../retry/RetryHandler";
-import { Logger } from "../reporting/Logger";
-import { FrameworkConfigType } from "../../../config/framework.config";
+import { ComponentFactory } from "@framework/factories/ComponentFactory";
+import { FrameworkConstants } from "@framework/constants/FrameworkConstants";
+import { RetryHandler } from "@framework/retry/RetryHandler";
+import { Logger } from "@framework/reporting/Logger";
+import { FrameworkConfigType } from "@config/framework.config";
 
 export abstract class BasePage {
 

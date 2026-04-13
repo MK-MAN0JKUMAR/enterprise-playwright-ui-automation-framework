@@ -1,8 +1,8 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { allure } from "allure-playwright";
-import { FrameworkConstants } from "../constants/FrameworkConstants";
-import { Logger } from "../reporting/Logger";
-import { RetryHandler } from "../retry/RetryHandler";
+import { FrameworkConstants } from "@framework/constants/FrameworkConstants";
+import { Logger } from "@framework/reporting/Logger";
+import { RetryHandler } from "@framework/retry/RetryHandler";
 
 export class UIElement {
 

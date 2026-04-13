@@ -1,14 +1,13 @@
 import { Locator, Page } from "@playwright/test";
 
-import { UIElement } from "../elements/UIElement";
-import { SelectorEngine } from "../selectors/SelectorEngine";
+import { UIElement } from "@framework/elements/UIElement";
+import { SelectorEngine } from "@framework/selectors/SelectorEngine";
 
-import { Button } from "../components/Button";
-import { Dropdown } from "../components/Dropdown";
-import { InputField } from "../components/InputField";
-import { Modal } from "../components/Modal";
-import { Table } from "../components/Table";
-
+import { Button } from "@framework/components/Button";
+import { Dropdown } from "@framework/components/Dropdown";
+import { InputField } from "@framework/components/InputField";
+import { Modal } from "@framework/components/Modal";
+import { Table } from "@framework/components/Table";
 export class ComponentFactory {
 
   constructor(private page: Page) { }

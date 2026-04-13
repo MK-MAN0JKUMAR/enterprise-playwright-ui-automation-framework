@@ -1,5 +1,5 @@
-import { test } from "../../../src/framework/fixtures/flowFixtures";
-import { LoginFlow } from "../../../src/applications/ecommerce/flows/LoginFlow";
+import { test } from "@framework/fixtures/flowFixtures";
+import { LoginFlow } from "@applications/ecommerce/flows/LoginFlow";
 
 type Fixtures = {
   ecommerceLoginFlow: LoginFlow;

@@ -1,3 +1,4 @@
+import 'tsconfig-paths/register';
 import { defineConfig } from "@playwright/test";
 import { envConfig, appConfig } from "./framework.config";
 

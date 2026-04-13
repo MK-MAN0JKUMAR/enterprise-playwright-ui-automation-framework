@@ -1,7 +1,7 @@
 import { pageTest } from "./pageFixtures";
 
-import { LoginFlow as EcommerceLoginFlow } from "../../applications/ecommerce/flows/LoginFlow";
-import { LoginFlow as OrangehrmLoginFlow } from "../../applications/orangehrm/flows/LoginFlow";
+import { LoginFlow as EcommerceLoginFlow } from "@applications/ecommerce/flows/LoginFlow";
+import { LoginFlow as OrangehrmLoginFlow } from "@applications/orangehrm/flows/LoginFlow";
 
 type FlowFixtures = {
 

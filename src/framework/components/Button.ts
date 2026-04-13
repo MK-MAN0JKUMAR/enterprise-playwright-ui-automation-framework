@@ -1,4 +1,4 @@
-import { UIElement } from "../elements/UIElement";
+import { UIElement } from "@framework/elements/UIElement";
 
 export class Button {
 

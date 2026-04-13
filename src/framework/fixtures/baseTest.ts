@@ -1,9 +1,9 @@
 import { test as base, expect } from "@playwright/test";
-import { DataContext } from "../../data/DataContext";
-// import { ScreenshotManager } from "../observability/ScreenshotManager";
-// import { TraceManager } from "../observability/TraceManager";
-// import { VideoManager } from "../observability/VideoManager";
-import { Logger } from "../reporting/Logger";
+import { DataContext } from "@data/DataContext";
+// import { ScreenshotManager } from "@framework/observability/ScreenshotManager";
+// import { TraceManager } from "@framework//observability/TraceManager";
+// import { VideoManager } from "@framework//observability/VideoManager";
+import { Logger } from "@framework/reporting/Logger";
 import { FrameworkConfigType, getFullConfigForApp } from "@config/framework.config";
 
 type FrameworkFixtures = {

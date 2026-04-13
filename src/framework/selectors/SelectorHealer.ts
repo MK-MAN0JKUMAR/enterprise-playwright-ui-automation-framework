@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import { Logger } from "../reporting/Logger";
+import { Logger } from "@framework/reporting/Logger";
 
 export class SelectorHealer {
 

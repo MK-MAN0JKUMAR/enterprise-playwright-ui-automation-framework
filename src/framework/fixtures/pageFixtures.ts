@@ -1,9 +1,9 @@
 import { baseTest } from "./baseTest";
 
-import { LoginPage as EcommerceLoginPage } from "../../applications/ecommerce/pages/LoginPage";
+import { LoginPage as EcommerceLoginPage } from "@applications/ecommerce/pages/LoginPage";
 
-import { LoginPage as OrangeLoginPage } from "../../applications/orangehrm/pages/LoginPage";
-import { DashboardPage as OrangeDashboardPage } from "../../applications/orangehrm/pages/DashboardPage";
+import { LoginPage as OrangeLoginPage } from "@applications/orangehrm/pages/LoginPage";
+import { DashboardPage as OrangeDashboardPage } from "@applications/orangehrm/pages/DashboardPage";
 
 type PageFixtures = {
 

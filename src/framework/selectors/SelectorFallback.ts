@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import { Logger } from "../reporting/Logger";
+import { Logger } from "@framework/reporting/Logger";
 import { SelectorHealer } from "./SelectorHealer";
 
 export class SelectorFallback {

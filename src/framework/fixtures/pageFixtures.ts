@@ -16,25 +16,20 @@ type PageFixtures = {
 
 export const pageTest = baseTest.extend<PageFixtures>({
 
-  ecommerceLoginPage: async ({ page }, use) => {
+  ecommerceLoginPage: async ({ page, appConfig }, use) => {
 
-    const loginPage = new EcommerceLoginPage(page);
+    await use(new EcommerceLoginPage(page, appConfig));
+  },
 
-    await use(loginPage);
+  orangehrmLoginPage: async ({ page, appConfig }, use) => {
+
+    await use(new OrangeLoginPage(page, appConfig));
 
   },
 
-  orangehrmLoginPage: async ({ page }, use) => {
+  orangehrmDashboardPage: async ({ page, appConfig }, use) => {
 
-    const loginPage = new OrangeLoginPage(page);
-
-    await use(loginPage);
-
-  },
-
-  orangehrmDashboardPage: async ({ page }, use) => {
-
-    const dashboardPage = new OrangeDashboardPage(page);
+    const dashboardPage = new OrangeDashboardPage(page, appConfig);
 
     await use(dashboardPage);
 

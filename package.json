@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "playwright test",
+    "test": "playwright test --config=config/playwright.config.ts",
     
     "test:ecommerce": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce",
     "test:ecommerce:smoke": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/smoke",

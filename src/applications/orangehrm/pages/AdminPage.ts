@@ -1,15 +1,14 @@
-import { Page } from "@playwright/test";
 import { BasePage } from "@framework/pages/BasePage";
-import { UIElement } from "../../../framework/elements/UIElement";
-import { Button } from "../../../framework/components/Button";
-import { SelectorEngine } from "../../../framework/selectors/SelectorEngine";
+import { Page } from "@playwright/test";
+import { Button } from "@framework/components/Button";
+import { FrameworkConfigType } from "@config/framework.config";
 
 export class AdminPage extends BasePage {
 
   private adminMenu: Button;
 
-  constructor(page: Page) {
-    super(page);
+  constructor(page: Page, config: FrameworkConfigType) {
+    super(page, config);
 
     this.adminMenu = this.components.buttonByDataQa("menu-admin");
   }

@@ -7,11 +7,12 @@ export default defineConfig({
 
   retries: envConfig.retries,
 
-  workers: envConfig.workers,
+  // workers: envConfig.workers,
+  workers: 1,
 
   timeout: 60000,
 
-  grep: new RegExp(appConfig.name),
+  // grep: new RegExp(appConfig.name),
 
   reporter: [
     ["html", { outputFolder: "../reports/playwright-report" }],
@@ -32,15 +33,31 @@ export default defineConfig({
 
   },
 
+  /*
   projects: [
 
     {
       name: "chromium",
       use: { browserName: "chromium" }
     },
+*/
 
-    
-    
+  projects: [
+
+    {
+      name: "ecommerce",
+      use: { browserName: "chromium", },
+      metadata: { app: "ecommerce" },
+      testMatch: /tests\/ecommerce\/.*/
+    },
+
+    {
+      name: "orangehrm",
+      use: { browserName: "chromium", },
+      metadata: { app: "orangehrm" },
+      testMatch: /tests\/orangehrm\/.*/
+    }
+
     /*
     {
       name: "firefox",

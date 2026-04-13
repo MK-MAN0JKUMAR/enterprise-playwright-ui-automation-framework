@@ -16,7 +16,8 @@
       "@framework/*": ["src/framework/*"],
       "@applications/*": ["src/applications/*"],
       "@data/*": ["src/data/*"],
-      "@domain/*": ["src/domain/*"]
+      "@domain/*": ["src/domain/*"],
+      "@config/*": ["config/*"]
     }
   },
 

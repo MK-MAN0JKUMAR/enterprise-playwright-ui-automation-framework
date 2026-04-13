@@ -1,4 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { allure } from "allure-playwright";
 import { FrameworkConstants } from "../constants/FrameworkConstants";
 import { Logger } from "../reporting/Logger";
 import { RetryHandler } from "../retry/RetryHandler";
@@ -13,50 +14,67 @@ export class UIElement {
   /**
    * Internal action wrapper
    */
+
+
   private async performAction(
     actionName: string,
     action: () => Promise<void>
   ): Promise<void> {
 
-    Logger.info(`UIElement action: ${actionName} | element: ${this.description}`);
+    const stepName = `${actionName} → ${this.description}`;
 
-    await this.waitForVisible();
+    await allure.step(stepName, async () => {
 
-    await RetryHandler.retry(async () => {
+      Logger.info(`UIElement action: ${actionName} | element: ${this.description}`);
 
-      await this.locator.scrollIntoViewIfNeeded();
+      try {
 
-      await action();
+        await this.locator.waitFor({ state: "visible" });
 
-    }, FrameworkConstants.RETRY_ATTEMPTS);
+        await RetryHandler.retry(async () => {
+
+          await this.locator.scrollIntoViewIfNeeded();
+
+          await action();
+
+        }, FrameworkConstants.RETRY_ATTEMPTS);
+
+      } catch (error) {
+
+        Logger.error(`UIElement failed: ${actionName} | element: ${this.description}`);
+
+        throw error;
+
+      }
+
+    });
 
   }
 
-  /**
-   * Smart click handles navigation and SPA transitions
-   */
   async smartClick(): Promise<void> {
 
     const page: Page = this.locator.page();
 
-    Logger.info(`SmartClick on element: ${this.description}`);
+    const stepName = `smartClick → ${this.description}`;
 
-    await this.waitForVisible();
+    await allure.step(stepName, async () => {
 
-    await RetryHandler.retry(async () => {
+      Logger.info(`SmartClick on element: ${this.description}`);
 
-      await Promise.all([
-        this.locator.click({ timeout: FrameworkConstants.DEFAULT_TIMEOUT }),
+      await this.locator.waitFor({ state: "visible" });
 
-        page.waitForLoadState("domcontentloaded", {
-          timeout: FrameworkConstants.DEFAULT_TIMEOUT
-        }).catch(() => {
-          // ignore if no navigation
-        })
+      await RetryHandler.retry(async () => {
 
-      ]);
+        await Promise.all([
+          this.locator.click({ timeout: FrameworkConstants.DEFAULT_TIMEOUT }),
+          page.waitForLoadState("domcontentloaded", {
+            timeout: FrameworkConstants.DEFAULT_TIMEOUT
+          }).catch(() => { })
+        ]);
 
-    }, FrameworkConstants.RETRY_ATTEMPTS);
+      }, FrameworkConstants.RETRY_ATTEMPTS);
+
+    });
 
   }
 

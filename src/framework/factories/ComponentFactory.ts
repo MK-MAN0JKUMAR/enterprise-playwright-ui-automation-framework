@@ -103,4 +103,107 @@ export class ComponentFactory {
 
   }
 
+  elementByRole(
+    role: Parameters<Page["getByRole"]>[0],
+    name: string
+  ): UIElement {
+
+    return this.element(
+      SelectorEngine.byRole(this.page, role, name),
+      `role=${role} name="${name}"`
+    );
+
+  }
+
+  // ---------- GENERIC ELEMENTS ----------
+
+  elementByCss(selector: string): UIElement {
+
+    return this.element(
+      SelectorEngine.byCss(this.page, selector),
+      `css="${selector}"`
+    );
+
+  }
+
+  elementByText(text: string): UIElement {
+
+    return this.element(
+      SelectorEngine.byText(this.page, text),
+      `text="${text}"`
+    );
+
+  }
+
+  elementByTestId(id: string): UIElement {
+
+    return this.element(
+      SelectorEngine.byTestId(this.page, id),
+      `testId="${id}"`
+    );
+
+  }
+
+
+  // ---------- INPUT FALLBACKS ----------
+
+  inputByCss(selector: string): InputField {
+
+    return new InputField(
+      this.element(
+        SelectorEngine.byCss(this.page, selector),
+        `input css="${selector}"`
+      )
+    );
+
+  }
+
+
+  // ---------- BUTTON FALLBACKS ----------
+
+  buttonByCss(selector: string): Button {
+
+    return new Button(
+      this.element(
+        SelectorEngine.byCss(this.page, selector),
+        `button css="${selector}"`
+      )
+    );
+
+  }
+
+
+  // ---------- DROPDOWN FALLBACK ----------
+
+  dropdownByCss(selector: string): Dropdown {
+
+    return new Dropdown(
+      this.element(
+        SelectorEngine.byCss(this.page, selector),
+        `dropdown css="${selector}"`
+      )
+    );
+
+  }
+
+  async smartButtonByDataQa(
+    value: string,
+    fallbackText?: string
+  ): Promise<Button> {
+
+    const locator = await SelectorEngine.smartDataQa(
+      this.page,
+      value,
+      fallbackText
+    );
+
+    return new Button(
+      new UIElement(
+        locator,
+        `smart-button[data-qa="${value}"]`
+      )
+    );
+
+  }
+
 }

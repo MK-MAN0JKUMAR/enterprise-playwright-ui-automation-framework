@@ -1,19 +1,21 @@
 import { Page } from "@playwright/test";
-import { appConfig } from "../../../config/framework.config";
 
 import { ComponentFactory } from "../factories/ComponentFactory";
 import { FrameworkConstants } from "../constants/FrameworkConstants";
 import { RetryHandler } from "../retry/RetryHandler";
 import { Logger } from "../reporting/Logger";
+import { FrameworkConfigType } from "@config/framework.config";
 
 export abstract class BasePage {
 
   protected page: Page;
   protected components: ComponentFactory;
+  protected config: FrameworkConfigType;
 
-  constructor(page: Page) {
+  constructor(page: Page, config: FrameworkConfigType) {
 
     this.page = page;
+    this.config = config;
     this.components = new ComponentFactory(page);
 
   }
@@ -21,8 +23,8 @@ export abstract class BasePage {
   protected async navigate(path: string = ""): Promise<void> {
 
     const url = path
-      ? `${appConfig.baseUrl}${path}`
-      : appConfig.baseUrl;
+      ? `${this.config.baseUrl}${path}`
+      : this.config.baseUrl;
 
     Logger.info(`Navigating to ${url}`);
 
@@ -33,7 +35,7 @@ export abstract class BasePage {
         timeout: FrameworkConstants.NAVIGATION_TIMEOUT
       });
 
-    });
+    }, FrameworkConstants.RETRY_ATTEMPTS);
 
   }
 

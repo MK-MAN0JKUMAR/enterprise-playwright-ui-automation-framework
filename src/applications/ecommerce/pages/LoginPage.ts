@@ -2,7 +2,7 @@ import { Page } from "@playwright/test";
 import { BasePage } from "@framework/pages/BasePage";
 import { InputField } from "@framework/components/InputField";
 import { Button } from "@framework/components/Button";
-import { appConfig } from "../../../../config/framework.config";
+import { FrameworkConfigType } from "@config/framework.config";
 
 export class LoginPage extends BasePage {
 
@@ -10,23 +10,21 @@ export class LoginPage extends BasePage {
   private passwordInput: InputField;
   private loginButton: Button;
 
-  constructor(page: Page) {
-
-    super(page);
+  constructor(page: Page, config: FrameworkConfigType) {
+    super(page, config);
 
     this.emailInput = this.components.inputByDataQa("login-email");
     this.passwordInput = this.components.inputByDataQa("login-password");
     this.loginButton = this.components.buttonByDataQa("login-button");
-
   }
 
   async open(): Promise<void> {
 
-    if (!appConfig.routes?.login) {
+    if (!this.config.routes?.login) {
       throw new Error("Login route not defined in config");
     }
 
-    await this.navigate(appConfig.routes.login);
+    await this.navigate(this.config.routes.login);
 
   }
 

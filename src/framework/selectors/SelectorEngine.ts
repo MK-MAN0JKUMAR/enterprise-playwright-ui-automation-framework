@@ -107,8 +107,7 @@ export class SelectorEngine {
       () => fallbackText
         ? page.getByText(fallbackText)
         : page.locator("invalid")
-
-    ]);
+    ], fallbackText || value);  //healing input
 
   }
 

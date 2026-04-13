@@ -142,3 +142,17 @@ playwright-ui-automation-framework
 └─ tsconfig.json
 
 ```
+
+
+---
+
+# Author
+
+Manoj Kumar
+SDET | Automation Engineer
+
+Technology Stack
+Java | Rest Assured | TestNG | WireMock | Maven | Allure | CI/CD (GitHub Actions, Jenkins)
+
+---
+

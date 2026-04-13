@@ -8,9 +8,7 @@ on:
     branches: ["main"]
 
 jobs:
-
   ui-tests:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -22,7 +20,6 @@ jobs:
     name: ${{ matrix.application }}-${{ matrix.suite }}
 
     steps:
-
       # Checkout repository
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -57,17 +54,19 @@ jobs:
           name: playwright-report-${{ matrix.application }}
           path: reports/playwright-report
 
-      # Upload traces, screenshots, videos
-      - name: Upload Test Artifacts
-        if: always()
+      # Zip artifacts (ONLY if failure)
+      - name: Zip Test Artifacts
+        if: failure()
+        run: |
+          zip -r artifacts-${{ matrix.application }}.zip reports test-results || true
+
+      # Upload zipped artifacts (ONLY if failure)
+      - name: Upload Zipped Artifacts
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: execution-artifacts-${{ matrix.application }}
-          path: |
-            reports/screenshots
-            reports/videos
-            reports/traces
-            test-results
+          path: artifacts-${{ matrix.application }}.zip
 
       # Upload Allure results
       - name: Upload Allure Results

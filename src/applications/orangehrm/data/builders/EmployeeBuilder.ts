@@ -1,4 +1,4 @@
-import { Employee } from "../../../../domain/models/Employee";
+import { Employee } from "@domain/models/Employee";
 
 export class EmployeeBuilder {
 

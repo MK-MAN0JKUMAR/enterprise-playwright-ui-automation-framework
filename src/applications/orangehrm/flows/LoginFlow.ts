@@ -1,5 +1,5 @@
-import { LoginPage } from "../pages/LoginPage";
-import { DashboardPage } from "../pages/DashboardPage";
+import { LoginPage } from "@applications/orangehrm/pages/LoginPage";
+import { DashboardPage } from "@applications/orangehrm/pages/DashboardPage";
 
 export class LoginFlow {
 

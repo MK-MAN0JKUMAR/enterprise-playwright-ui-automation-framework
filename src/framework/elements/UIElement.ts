@@ -1,21 +1,109 @@
-import { Locator, expect } from "@playwright/test";
-import { FrameworkConstants } from "../constants/FrameworkConstants";
-import { RetryHandler } from "../retry/RetryHandler";
-import { Logger } from "../reporting/Logger";
+import { expect, Locator, Page } from "@playwright/test";
+import { allure } from "allure-playwright";
+import { FrameworkConstants } from "@framework/constants/FrameworkConstants";
+import { Logger } from "@framework/reporting/Logger";
+import { RetryHandler } from "@framework/retry/RetryHandler";
 
 export class UIElement {
 
-  constructor(private locator: Locator) {}
+  private static allowCreation = false;
 
+  static enableFactoryCreation() {
+    this.allowCreation = true;
+  }
+
+  static disableFactoryCreation() {
+    this.allowCreation = false;
+  }
+
+  constructor(
+    private locator: Locator,
+    private description: string
+  ) {
+    if (!UIElement.allowCreation) {
+      throw new Error(
+        "UIElement must be created via ComponentFactory only"
+      );
+    }
+  }
+
+  /**
+   * Internal action wrapper
+   */
+
+
+  private async performAction(
+    actionName: string,
+    action: () => Promise<void>
+  ): Promise<void> {
+
+    const stepName = `${actionName} → ${this.description}`;
+
+    await allure.step(stepName, async () => {
+
+      Logger.info(`UIElement action: ${actionName} | element: ${this.description}`);
+
+      try {
+
+        await this.locator.waitFor({ state: "visible" });
+
+        await RetryHandler.retry(async () => {
+
+          await this.locator.scrollIntoViewIfNeeded();
+
+          await action();
+
+        }, FrameworkConstants.RETRY_ATTEMPTS);
+
+      } catch (error) {
+
+        Logger.error(`UIElement failed: ${actionName} | element: ${this.description}`);
+
+        throw error;
+
+      }
+
+    });
+
+  }
+
+  async smartClick(): Promise<void> {
+
+    const page: Page = this.locator.page();
+
+    const stepName = `smartClick → ${this.description}`;
+
+    await allure.step(stepName, async () => {
+
+      Logger.info(`SmartClick on element: ${this.description}`);
+
+      await this.locator.waitFor({ state: "visible" });
+
+      await RetryHandler.retry(async () => {
+
+        await Promise.all([
+          this.locator.click({ timeout: FrameworkConstants.DEFAULT_TIMEOUT }),
+          page.waitForLoadState("domcontentloaded", {
+            timeout: FrameworkConstants.DEFAULT_TIMEOUT
+          }).catch(() => { })
+        ]);
+
+      }, FrameworkConstants.RETRY_ATTEMPTS);
+
+    });
+
+  }
+
+  /**
+   * Standard click
+   */
   async click(): Promise<void> {
 
-    await RetryHandler.retry(async () => {
+    await this.performAction("click", async () => {
 
-      Logger.info("Clicking element");
-
-      await this.waitForVisible();
-
-      await this.locator.click();
+      await this.locator.click({
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
     });
 
@@ -23,63 +111,66 @@ export class UIElement {
 
   async fill(value: string): Promise<void> {
 
-    Logger.info(`Filling value: ${value}`);
+    await this.performAction(`fill value=${value}`, async () => {
 
-    await this.waitForVisible();
+      await this.locator.fill(value, {
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
-    await this.locator.fill(value);
+    });
 
   }
 
   async type(value: string): Promise<void> {
 
-    Logger.info(`Typing value: ${value}`);
+    await this.performAction(`type value=${value}`, async () => {
 
-    await this.waitForVisible();
+      await this.locator.type(value, {
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
-    await this.locator.type(value);
+    });
 
   }
 
   async hover(): Promise<void> {
 
-    Logger.info("Hovering element");
+    await this.performAction("hover", async () => {
 
-    await this.waitForVisible();
+      await this.locator.hover({
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
-    await this.locator.hover();
+    });
 
   }
 
   async select(value: string): Promise<void> {
 
-    Logger.info(`Selecting option: ${value}`);
+    await this.performAction(`select value=${value}`, async () => {
 
-    await this.waitForVisible();
+      await this.locator.selectOption(value, {
+        timeout: FrameworkConstants.DEFAULT_TIMEOUT
+      });
 
-    await this.locator.selectOption(value);
+    });
 
   }
 
-  async text(): Promise<string | null> {
+  /**
+   * Safe getters
+   */
+  async text(): Promise<string> {
 
-    await this.waitForVisible();
+    const text = await this.locator.textContent();
 
-    return await this.locator.textContent();
+    return text ?? "";
 
   }
 
   async value(): Promise<string> {
 
-    await this.waitForVisible();
-
     return await this.locator.inputValue();
-
-  }
-
-  async isVisible(): Promise<boolean> {
-
-    return await this.locator.isVisible();
 
   }
 
@@ -91,6 +182,15 @@ export class UIElement {
 
   }
 
+  async isVisible(): Promise<boolean> {
+
+    return await this.locator.isVisible();
+
+  }
+
+  /**
+   * Wait utilities
+   */
   async waitForVisible(): Promise<void> {
 
     await expect(this.locator).toBeVisible({

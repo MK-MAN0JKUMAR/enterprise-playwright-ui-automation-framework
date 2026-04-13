@@ -1,15 +1,17 @@
-import { Page } from "@playwright/test";
-import { BasePage } from "@framework/pages/BasePage";
 import { Button } from "@framework/components/Button";
+import { BasePage } from "@framework/pages/BasePage";
+import { Page } from "@playwright/test";
+import { FrameworkConfigType } from "@config/framework.config";
+
 
 export class LeavePage extends BasePage {
 
   private leaveMenu: Button;
   private applyButton: Button;
 
-  constructor(page: Page) {
+  constructor(page: Page, config: FrameworkConfigType) {
 
-    super(page);
+    super(page, config);
 
     this.leaveMenu = this.components.buttonByDataQa("menu-leave");
     this.applyButton = this.components.buttonByDataQa("apply-leave");

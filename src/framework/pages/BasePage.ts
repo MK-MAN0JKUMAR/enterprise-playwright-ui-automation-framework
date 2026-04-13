@@ -1,39 +1,63 @@
 import { Page } from "@playwright/test";
-import { appConfig } from "../../../config/framework.config";
-import { ComponentFactory } from "../factories/ComponentFactory";
+import { ComponentFactory } from "@framework/factories/ComponentFactory";
+import { FrameworkConstants } from "@framework/constants/FrameworkConstants";
+import { RetryHandler } from "@framework/retry/RetryHandler";
+import { Logger } from "@framework/reporting/Logger";
+import { FrameworkConfigType } from "@config/framework.config";
 
 export abstract class BasePage {
 
   protected page: Page;
   protected components: ComponentFactory;
+  protected config: FrameworkConfigType;
 
-  constructor(page: Page) {
+  private initialized = false;
+
+  constructor(page: Page, config: FrameworkConfigType) {
+
     this.page = page;
     this.components = new ComponentFactory(page);
+    this.config = config;
+
   }
 
-  // protected async navigate(path: string = ""): Promise<void> {
+  /**
+   * Force initialization before usage
+   */
+  protected async init(): Promise<void> {
 
-  //   const url = path
-  //     ? `${appConfig.baseUrl}${path}`
-  //     : appConfig.baseUrl;
+    if (!this.initialized) {
+      await this.onInit();
+      this.initialized = true;
+    }
 
-  //   await this.page.goto(url, { waitUntil: "domcontentloaded" });
-  //   await this.waitForPageLoad();
-  // }
+  }
+
+  /**
+   * Child pages override this
+   */
+  protected async onInit(): Promise<void> {
+    // override in child
+  }
 
   protected async navigate(path: string = ""): Promise<void> {
 
-  const url = path
-    ? `${appConfig.baseUrl}${path}`
-    : appConfig.baseUrl;
+    const url = path
+      ? `${this.config.baseUrl}${path}`
+      : this.config.baseUrl;
 
-  await this.page.goto(url, {
-    waitUntil: "commit",
-    timeout: 60000
-  });
+    Logger.info(`Navigating to ${url}`);
 
-}
+    await RetryHandler.retry(async () => {
+
+      await this.page.goto(url, {
+        waitUntil: "domcontentloaded",
+        timeout: FrameworkConstants.NAVIGATION_TIMEOUT
+      });
+
+    });
+
+  }
 
   protected async waitForPageLoad(): Promise<void> {
     await this.page.waitForLoadState("domcontentloaded");
@@ -41,10 +65,6 @@ export abstract class BasePage {
 
   protected async waitForNetworkIdle(): Promise<void> {
     await this.page.waitForLoadState("networkidle");
-  }
-
-  async getCurrentUrl(): Promise<string> {
-    return this.page.url();
   }
 
 }

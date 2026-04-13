@@ -1,4 +1,4 @@
-import { LoginPage } from "../pages/LoginPage";
+import { LoginPage } from "@applications/ecommerce/pages/LoginPage";
 
 export class LoginFlow {
 

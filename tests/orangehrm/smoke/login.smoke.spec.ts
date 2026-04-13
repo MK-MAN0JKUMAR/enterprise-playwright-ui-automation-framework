@@ -1,5 +1,5 @@
-import { test } from "../../../src/framework/fixtures/flowFixtures";
-import { LoginFlow } from "../../../src/applications/orangehrm/flows/LoginFlow";
+import { test } from "@framework/fixtures/flowFixtures";
+import { LoginFlow } from "@applications/orangehrm/flows/LoginFlow";
 
 type Fixtures = {
   orangehrmLoginFlow: LoginFlow;

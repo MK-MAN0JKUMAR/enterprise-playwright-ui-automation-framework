@@ -17,10 +17,13 @@ type AppConfig = {
   };
 };
 
+export type FrameworkConfigType = EnvConfig & AppConfig;
+
 class FrameworkConfig {
 
   private static env: EnvConfig;
   private static app: AppConfig;
+
 
   static loadEnv(): EnvConfig {
 
@@ -45,6 +48,7 @@ class FrameworkConfig {
     return this.env;
   }
 
+
   static loadApp(): AppConfig {
 
     if (this.app) return this.app;
@@ -67,7 +71,60 @@ class FrameworkConfig {
     return this.app;
   }
 
+  // Parallel (enterprise-safe)
+  static loadFullConfig(): FrameworkConfigType {
+
+    const env = this.loadEnv();
+
+    const appName = process.env.TEST_APP;
+
+    if (!appName) {
+      throw new Error("TEST_APP is not defined");
+    }
+
+    const appMap: Record<string, AppConfig> = {
+      ecommerce,
+      orangehrm
+    };
+
+    const app = appMap[appName];
+
+    if (!app) {
+      throw new Error(`Invalid TEST_APP: ${appName}`);
+    }
+
+    return Object.freeze({
+      ...env,
+      ...app
+    });
+
+  }
+
+}
+
+export function getFullConfigForApp(appName: string): FrameworkConfigType {
+
+  const env = FrameworkConfig.loadEnv();
+
+  const appMap: Record<string, AppConfig> = {
+    ecommerce,
+    orangehrm
+  };
+
+  const app = appMap[appName];
+
+  if (!app) {
+    throw new Error(`Invalid app: ${appName}`);
+  }
+
+  return Object.freeze({
+    ...env,
+    ...app
+  });
 }
 
 export const envConfig = FrameworkConfig.loadEnv();
 export const appConfig = FrameworkConfig.loadApp();
+
+// For parallel test execution
+export const getFullConfig = () => FrameworkConfig.loadFullConfig();

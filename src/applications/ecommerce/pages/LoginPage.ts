@@ -8,24 +8,22 @@ export class LoginPage extends BasePage {
 
   private emailInput!: InputField;
   private passwordInput!: InputField;
-  private loginButton!: Button;
+  // private loginButton!: Button;
 
   constructor(page: Page, config: FrameworkConfigType) {
     super(page, config);
-
-    // this.emailInput = this.components.inputByDataQa("login-email");
-    // this.passwordInput = this.components.inputByDataQa("login-password");
-    // this.loginButton = this.components.buttonByDataQa("login-button");
   }
 
   protected async onInit(): Promise<void> {
 
     this.emailInput = this.components.inputByDataQa("login-email");
-
     this.passwordInput = this.components.inputByDataQa("login-password");
 
-    // async-safe smart selector
-    this.loginButton = await this.components.smartButtonByDataQa("login-button", "Login");
+  }
+
+  private async getLoginButton(): Promise<Button> {
+
+    return await this.components.smartButtonByDataQa("login-button", "Login");
 
   }
 
@@ -43,9 +41,12 @@ export class LoginPage extends BasePage {
 
     await this.init();
 
+    const loginButton = await this.getLoginButton();
+
+
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
-    await this.loginButton.click();
+    await loginButton.click();
 
   }
 

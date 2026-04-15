@@ -23,14 +23,24 @@ export abstract class BasePage {
 
   /**
    * Force initialization before usage
-   */
+  protected async init(): Promise<void> {
+    
+  if (!this.initialized) {
+    await this.onInit();
+    this.initialized = true;
+  }
+  }
+  */
+
+  private initPromise?: Promise<void>;
+
   protected async init(): Promise<void> {
 
-    if (!this.initialized) {
-      await this.onInit();
-      this.initialized = true;
+    if (!this.initPromise) {
+      this.initPromise = this.onInit();
     }
 
+    await this.initPromise;
   }
 
   /**
@@ -54,7 +64,7 @@ export abstract class BasePage {
         waitUntil: "domcontentloaded",
         timeout: FrameworkConstants.NAVIGATION_TIMEOUT
       });
-
+      await this.waitForPageLoad();
     });
 
   }

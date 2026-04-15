@@ -1,5 +1,7 @@
-import { test } from "@framework/fixtures/flowFixtures";
+import { LoginDataFactory } from "@applications/orangehrm/data/factories/LoginDataFactory";
 import { LoginFlow } from "@applications/orangehrm/flows/LoginFlow";
+import { test } from "@framework/fixtures/flowFixtures";
+
 
 type Fixtures = {
   orangehrmLoginFlow: LoginFlow;
@@ -7,6 +9,7 @@ type Fixtures = {
 
 test("orangehrm login", async ({ orangehrmLoginFlow }: Fixtures) => {
 
-  await orangehrmLoginFlow.login();
+  const user = LoginDataFactory.defaultUser();
+  await orangehrmLoginFlow.login(user);
 
 });

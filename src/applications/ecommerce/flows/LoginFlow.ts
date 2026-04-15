@@ -1,13 +1,15 @@
 import { LoginPage } from "@applications/ecommerce/pages/LoginPage";
+import { LoginData } from "@domain/models/LoginData";
+
 
 export class LoginFlow {
 
-  constructor(private loginPage: LoginPage) {}
+  constructor(private loginPage: LoginPage) { }
 
-  async login(email: string, password: string): Promise<void> {
+  async login(data: LoginData): Promise<void> {
 
     await this.loginPage.open();
-    await this.loginPage.login(email, password);
+    await this.loginPage.login(data.username, data.password);
 
   }
 

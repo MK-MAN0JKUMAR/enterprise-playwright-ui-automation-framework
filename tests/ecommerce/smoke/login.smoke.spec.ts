@@ -1,5 +1,7 @@
-import { test } from "@framework/fixtures/flowFixtures";
+import { LoginDataFactory } from "@applications/ecommerce/data/factories/LoginDataFactory";
 import { LoginFlow } from "@applications/ecommerce/flows/LoginFlow";
+import { test } from "@framework/fixtures/flowFixtures";
+
 
 type Fixtures = {
   ecommerceLoginFlow: LoginFlow;
@@ -7,9 +9,7 @@ type Fixtures = {
 
 test("ecommerce login", async ({ ecommerceLoginFlow }: Fixtures) => {
 
-  await ecommerceLoginFlow.login(
-    "automation.test@example.com",
-    "Test@123"
-  );
+  const user = LoginDataFactory.defaultUser();
+  await ecommerceLoginFlow.login(user);
 
 });

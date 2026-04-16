@@ -1,4 +1,3 @@
-import { Page } from "@playwright/test";
 import { DashboardPage } from "@applications/orangehrm/pages/DashboardPage";
 import { AdminPage } from "@applications/orangehrm/pages/AdminPage";
 import { EmployeePage } from "@applications/orangehrm/pages/EmployeePage";
@@ -6,15 +5,11 @@ import { Employee } from "@domain/models/Employee";
 
 export class EmployeeManagementFlow {
 
-  private dashboardPage: DashboardPage;
-  private adminPage: AdminPage;
-  private employeePage: EmployeePage;
-
-  constructor(private page: Page) {
-    this.dashboardPage = new DashboardPage(page);
-    this.adminPage = new AdminPage(page);
-    this.employeePage = new EmployeePage(page);
-  }
+  constructor(
+    private dashboardPage: DashboardPage,
+    private adminPage: AdminPage,
+    private employeePage: EmployeePage
+  ) {}
 
   async createEmployee(employee: Employee): Promise<void> {
 

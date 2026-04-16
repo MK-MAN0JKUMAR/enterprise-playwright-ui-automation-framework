@@ -7,13 +7,16 @@ import { Page } from "@playwright/test";
 
 export class EmployeePage extends BasePage {
 
-  private addEmployeeButton: Button;
-  private firstNameInput: InputField;
-  private lastNameInput: InputField;
-  private saveButton: Button;
+  private addEmployeeButton!: Button;
+  private firstNameInput!: InputField;
+  private lastNameInput!: InputField;
+  private saveButton!: Button;
 
   constructor(page: Page, config: FrameworkConfigType) {
     super(page, config);
+  }
+
+  protected async onInit(): Promise<void> {
 
     this.addEmployeeButton = this.components.buttonByDataQa("add-employee");
 
@@ -21,9 +24,12 @@ export class EmployeePage extends BasePage {
     this.lastNameInput = this.components.inputByPlaceholder("Last Name");
 
     this.saveButton = this.components.buttonByDataQa("save-employee");
+
   }
 
   async addEmployee(employee: Employee): Promise<void> {
+
+    await this.init();
 
     await this.addEmployeeButton.click();
 

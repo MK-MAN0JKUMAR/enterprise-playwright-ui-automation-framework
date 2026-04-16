@@ -13,6 +13,8 @@
     "test:orangehrm": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm",
     "test:orangehrm:smoke": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/smoke",
     "test:orangehrm:smoke:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/smoke --headed",
+    "test:orangehrm:ui": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/ui",
+    "test:orangehrm:ui:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/ui --headed",
     "test:orangehrm:regression": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/regression",
     "test:orangehrm:regression:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/regression --headed",
     

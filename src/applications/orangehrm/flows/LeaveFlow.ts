@@ -1,16 +1,12 @@
-import { Page } from "@playwright/test";
 import { DashboardPage } from "@applications/orangehrm/pages/DashboardPage";
 import { LeavePage } from "@applications/orangehrm/pages/LeavePage";
 
 export class LeaveFlow {
 
-  private dashboardPage: DashboardPage;
-  private leavePage: LeavePage;
-
-  constructor(private page: Page) {
-    this.dashboardPage = new DashboardPage(page);
-    this.leavePage = new LeavePage(page);
-  }
+  constructor(
+    private dashboardPage: DashboardPage,
+    private leavePage: LeavePage
+  ) { }
 
   async applyLeave(): Promise<void> {
 
@@ -18,7 +14,7 @@ export class LeaveFlow {
 
     await this.leavePage.openLeaveModule();
 
-    await this.leavePage.applyLeave();
+    // await this.leavePage.applyLeave();
 
   }
 

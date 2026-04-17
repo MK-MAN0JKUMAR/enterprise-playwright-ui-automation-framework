@@ -14,7 +14,7 @@ export class LeaveFlow {
 
     await this.leavePage.openLeaveModule();
 
-    await this.leavePage.applyLeave();
+    // await this.leavePage.applyLeave();
 
   }
 

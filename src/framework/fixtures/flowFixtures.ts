@@ -5,6 +5,7 @@ import { LoginFlow as OrangehrmLoginFlow } from "@applications/orangehrm/flows/L
 
 import { EmployeeManagementFlow } from "@applications/orangehrm/flows/EmployeeManagementFlow";
 import { LeaveFlow } from "@applications/orangehrm/flows/LeaveFlow";
+import { AdminFlow } from "@applications/orangehrm/flows/AdminFlow";
 
 type FlowFixtures = {
 
@@ -15,6 +16,7 @@ type FlowFixtures = {
   // Future flows (orangehrm)
   employeeManagementFlow: EmployeeManagementFlow;
   leaveFlow: LeaveFlow;
+  adminFlow: AdminFlow;
 
 };
 
@@ -40,6 +42,23 @@ export const test = pageTest.extend<FlowFixtures>({
     const flow = new OrangehrmLoginFlow(
       orangehrmLoginPage,
       orangehrmDashboardPage
+    );
+
+    await use(flow);
+
+  },
+
+
+  // ------------------ ORANGEHRM-ADMIN FLOW ------------------
+
+  adminFlow: async (
+    { orangehrmDashboardPage, orangehrmAdminPage },
+    use
+  ) => {
+
+    const flow = new AdminFlow(
+      orangehrmDashboardPage,
+      orangehrmAdminPage
     );
 
     await use(flow);

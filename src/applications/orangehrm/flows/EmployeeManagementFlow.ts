@@ -9,14 +9,12 @@ export class EmployeeManagementFlow {
     private dashboardPage: DashboardPage,
     private adminPage: AdminPage,
     private employeePage: EmployeePage
-  ) {}
+  ) { }
 
   async createEmployee(employee: Employee): Promise<void> {
 
     await this.dashboardPage.waitForDashboard();
-
-    await this.adminPage.openAdminModule();
-
+    
     await this.employeePage.addEmployee(employee);
 
   }

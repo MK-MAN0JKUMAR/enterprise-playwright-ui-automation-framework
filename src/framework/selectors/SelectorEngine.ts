@@ -35,7 +35,7 @@ export class SelectorEngine {
     SelectorValidator.validate("role", String(role));
 
     if (name) {
-      return page.getByRole(role, { name });
+      return page.getByRole(role, { name, exact: true })
     }
 
     return page.getByRole(role);

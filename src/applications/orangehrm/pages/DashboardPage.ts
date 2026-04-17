@@ -5,19 +5,22 @@ import { Page } from "@playwright/test";
 
 export class DashboardPage extends BasePage {
 
-  private dashboardHeader: UIElement;
+  private dashboardHeader!: UIElement;
 
   constructor(page: Page, config: FrameworkConfigType) {
-
     super(page, config);
-    this.dashboardHeader = this.components.elementByRole("heading", "Dashboard");
+  }
 
+  protected async onInit(): Promise<void> {
+  
+    this.dashboardHeader = this.components.elementByRole("heading", "Dashboard");
+  
   }
 
   async waitForDashboard(): Promise<void> {
-
+  
+    await this.init();
     await this.dashboardHeader.waitForVisible();
-
+  
   }
-
 }

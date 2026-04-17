@@ -4,18 +4,32 @@
   "private": true,
   "scripts": {
     "test": "playwright test --config=config/playwright.config.ts",
+    
     "test:ecommerce": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce",
     "test:ecommerce:smoke": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/smoke",
     "test:ecommerce:smoke:headed": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/smoke --headed",
     "test:ecommerce:regression": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/regression",
     "test:ecommerce:regression:headed": "cross-env TEST_APP=ecommerce TEST_ENV=dev playwright test tests/ecommerce/regression --headed",
     
+
+    
     "test:orangehrm": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm",
     "test:orangehrm:smoke": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/smoke",
     "test:orangehrm:smoke:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/smoke --headed",
+    "test:orangehrm:ui": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/ui",
+    "test:orangehrm:ui:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/ui --headed",
     "test:orangehrm:regression": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/regression",
     "test:orangehrm:regression:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/regression --headed",
+
+    "test:orangehrm:login:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/smoke/login.spec.ts --headed",
+    "test:orangehrm:admin:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/ui/admin.spec.ts --headed",
+    "test:orangehrm:employee:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/regression/employee-management.spec.ts --headed",
+    "test:orangehrm:leave:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/regression/leave.spec.ts --headed",
+    "test:orangehrm:dashboard:headed": "cross-env TEST_APP=orangehrm TEST_ENV=dev playwright test tests/orangehrm/ui/dashboard.spec.ts --headed",
+
     
+
+
     "report": "playwright show-report",
     "allure:generate": "allure generate ./reports/allure-results -o ./reports/allure-report --clean",
     "allure:open": "allure open ./reports/allure-report",

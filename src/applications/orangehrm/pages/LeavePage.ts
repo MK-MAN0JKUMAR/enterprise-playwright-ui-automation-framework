@@ -32,18 +32,17 @@ export class LeavePage extends BasePage {
 
     // page validation
     this.leaveHeader = this.components.elementByRole("heading", "Leave");
-    
+
     // actions
     this.applyButton = this.components.buttonByRole("button", "Apply");
 
     this.leaveTypeDropdown = this.components.dropdownByCss(
-      ".oxd-select-text--arrow"
+      'div.oxd-input-group:has(label:has-text("Leave Type")) .oxd-select-text--arrow'
     );
 
     this.fromDateIcon = this.components.elementByCss(
-      ".oxd-date-input .oxd-icon"
+      'div.oxd-input-group:has(label:has-text("From Date")) .oxd-icon'
     );
-
 
     this.commentBox = this.components.inputByCss("textarea");
 
@@ -67,25 +66,20 @@ export class LeavePage extends BasePage {
 
   }
 
-  /*
+  // /*
   async applyLeave(): Promise<void> {
 
     await this.init();
 
-    await this.openLeaveModule();
-
-    await this.openApplyLeave();
-
     // select leave type
-    // await this.leaveTypeDropdown.click();
-    await this.components.elementByCss(".oxd-select-text--arrow").click();
+    await this.leaveTypeDropdown.open();
 
     await this.components
-      .elementByRole("option", "CAN - FMLA")
+      .elementByRole("option", "US - Personal")
       .click();
 
 
-//not working from here check when we have time
+    //not working from here check when we have time
     // select date
     await this.fromDateIcon.click();
 
@@ -101,7 +95,7 @@ export class LeavePage extends BasePage {
     await this.successMessage.waitForVisible();
 
   }
-  */
+  // */
 
 }
 

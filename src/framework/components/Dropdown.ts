@@ -2,7 +2,7 @@ import { UIElement } from "@framework/elements/UIElement";
 
 export class Dropdown {
 
-  constructor(private element: UIElement) {}
+  constructor(private element: UIElement) { }
 
   async select(value: string): Promise<void> {
     await this.element.select(value);
@@ -10,6 +10,10 @@ export class Dropdown {
 
   async getValue(): Promise<string> {
     return await this.element.value();
+  }
+
+  async open(): Promise<void> {
+    await this.element.click();
   }
 
 }
